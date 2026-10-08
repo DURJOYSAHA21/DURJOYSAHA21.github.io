@@ -4,6 +4,10 @@ Personal portfolio for Durjoy Saha — final-year CSE student, ML and backend. N
 Router, Tailwind v4, TypeScript strict, statically exported to `out/` so GitHub Pages serves it as
 plain files.
 
+**To edit the site yourself, read [PROJECT_GUIDE.md](PROJECT_GUIDE.md) first.** It maps every file, gives
+copy-paste recipes for common changes (add a project, add a paper, change a colour), and explains the
+two-branch deploy.
+
 ```bash
 npm install
 npm run dev      # http://localhost:3000

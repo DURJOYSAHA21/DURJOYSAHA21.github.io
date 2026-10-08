@@ -40,5 +40,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# generated cover sources (public/covers holds the shipped crops)
+# orphaned AI cover sources; the shipped covers and the crop script were both deleted
 /vibe_images
