@@ -31,9 +31,13 @@ stays blank.
 
 ## Deploying
 
-`.github/workflows/deploy.yml` builds `out/` and publishes it through GitHub Pages. In the repo's
-**Settings → Pages**, set **Source** to **GitHub Actions**.
+Live at **https://durjoysaha21.github.io/** — a user site served from `/`, so the build uses an
+empty `NEXT_PUBLIC_BASE_PATH`. A project site (`user.github.io/repo`) would need that value set to
+`/repo-name`; it is compiled into the export, not read at runtime.
 
-The repository is `DURJOYSAHA21.github.io`, a user site served from `/`, so the workflow builds with
-`NEXT_PUBLIC_BASE_PATH: ""`. A project site (`user.github.io/repo`) needs that value set to
-`/repo-name` — it is compiled into the export, not read at runtime.
+GitHub Pages is configured to publish the `gh-pages` branch, which holds nothing but the built
+`out/` of this repository. That branch is generated, never edited by hand.
+
+`.github/workflows/deploy.yml` replaces that with a build on every push to `main` (Actions as the
+Pages source). It is intentionally not committed yet: pushing anything under `.github/workflows/`
+requires an OAuth token with the `workflow` scope.
