@@ -246,7 +246,7 @@ export const RESEARCH: Paper[] = [
   {
     title:
       "A Comparative Study of Ensemble Machine Learning Models for Darknet Traffic Detection",
-    venue: "ICCIT 2026",
+    venue: "ICIEV 2026",
     status: "under review",
     year: "2026",
     note: "Ensemble classifiers measured against each other for spotting darknet traffic rather than trusting a single model's score.",
