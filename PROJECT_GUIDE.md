@@ -253,9 +253,10 @@ guess — this page goes to recruiters.
 
 | Where | What is missing |
 | --- | --- |
-| `ARENAS` → Financial Risk Prediction | Event name, year, dataset, model, result. `stack: []` and `year: "—"`. |
+| `ARENAS` → Financial Risk Prediction | Dataset, model, result. `stack: []` still empty. |
 | `HONORS` → Dean's Award | Year. |
 | `HONORS` → IT Essentials (Cisco) | Year. |
+| `HONORS` → KnowledgeGate Complete CSS | **Omitted on purpose, not blank.** The course was finished at 93% but `knowledgegate.ai/certificate/60E75900` renders "Certificate Revoked — this certificate is no longer valid". Re-check that page before ever adding it back. |
 | `BUILDS` → Luffy | `period: ""` (no date given). Also no repo, and the `Graphics` repository does not clearly contain it. |
 | `CONTACT` | No LinkedIn, no X handle. |
 | `public/durjoy.jpg` | JPG, so the background cannot be removed. A transparent PNG would fix the hero. |
