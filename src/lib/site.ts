@@ -233,15 +233,15 @@ export const RESEARCH: Paper[] = [
     venue: "NBHRC 2025",
     status: "Abstract published",
     year: "2025",
-    note: "Abstract and poster on chatbot-supported mental health care for Bangladeshi university students, presented at the Dhaka Medical College Research and Academic Club meeting in August 2025.",
+    note: "Abstract and poster on chatbot-supported mental health care for Bangladeshi university students, presented at the National Biomed Health ResearchCon held by Dhaka Medical College Research & Academic Club with Bangladesh Society of Medicine.",
   },
   {
     title:
       "Transformational Leadership and Organizational Change in Bangladeshi Higher Education Institutions",
-    venue: "7th ICIS",
+    venue: "7th ICIS 2025",
     status: "Conference paper presented",
     year: "2025",
-    note: "Paper at the 7th International Conference on Integrated Sciences on how leadership style shapes change inside Bangladeshi higher education.",
+    note: "With Protiti Sahajee Prachi and Md. Mortuza Ahmmed, on how leadership style shapes change inside Bangladeshi higher education. Presented at the 7th International Conference on Integrated Sciences, Eastern University, Dhaka.",
   },
   {
     title:
@@ -290,14 +290,16 @@ export type Honor = {
   issuer: string;
   year: string;
   kind: "honor" | "certification";
+  /** Public verification page, checked by hand before it was put here. */
+  link?: string;
 };
 
 export const HONORS: Honor[] = [
   { title: "Dean’s Award", issuer: "AIUB", year: "—", kind: "honor" },
   {
-    title: "Presenting author, abstract and poster",
-    issuer: "NBHRC 2025 · Dhaka Medical College Research and Academic Club",
-    year: "Aug 2025",
+    title: "Certificate of Presentation, abstract and poster",
+    issuer: "National Biomed Health ResearchCon (NBHRC) 2025 · DMC-RAC with Bangladesh Society of Medicine",
+    year: "28–29 Aug 2025",
     kind: "honor",
   },
   {
@@ -308,9 +310,30 @@ export const HONORS: Honor[] = [
   },
   {
     title: "YUNet International Youth Upskill Summit",
-    issuer: "Youth Upskill Network",
-    year: "Jul 2025",
+    issuer: "Youth Upskill Network · World Youth Skills Day",
+    year: "18 Jul 2025",
     kind: "certification",
+  },
+  {
+    title: "Complete HTML",
+    issuer: "KnowledgeGate",
+    year: "22 Aug 2025",
+    kind: "certification",
+    link: "https://www.knowledgegate.ai/certificate/B0E59648",
+  },
+  {
+    title: "Complete JavaScript",
+    issuer: "KnowledgeGate",
+    year: "27 Oct 2025",
+    kind: "certification",
+    link: "https://www.knowledgegate.ai/certificate/1E21C7F2",
+  },
+  {
+    title: "Python 101 for Data Science (PY0101EN)",
+    issuer: "Cognitive Class · IBM Developer Skills Network",
+    year: "20 Mar 2026",
+    kind: "certification",
+    link: "https://courses.cognitiveclass.ai/certificates/e40915b6e7e1439381383105573d4996",
   },
 ];
 

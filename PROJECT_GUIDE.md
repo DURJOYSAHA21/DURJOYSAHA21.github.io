@@ -202,6 +202,12 @@ vs "GPA"). `points` is the bullet list.
 
 `HONORS` (`kind: "honor"` or `"certification"`), or `CO_CURRICULAR` for club roles.
 
+Optional `link` renders a `verify ↗` chip. **Open the link in a browser first and read what it
+says.** KnowledgeGate verification pages can render "Certificate Revoked — this certificate is no
+longer valid" while still returning HTTP 200, so a curl check is not enough. The Complete CSS
+course was finished but its certificate was revoked, so it is deliberately absent from `HONORS`;
+the HTML and JavaScript ones are listed because their pages say "Certificate Verified".
+
 ### Add a hackathon / datathon entry
 
 `ARENAS`. `kind` must be `"hackathon" | "datathon" | "contest"` — it labels the card and feeds the

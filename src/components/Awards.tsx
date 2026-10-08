@@ -3,14 +3,15 @@ import Section, { type Accent } from "./Section";
 import Tile from "./Tile";
 
 const ACCENTS: Accent[] = ["gold", "teal", "clay", "brass"];
+
+/** Five tiles fill two 6-column rows, so the cycle keeps working at any list length. */
 const SPANS = [
   "sm:col-span-2 lg:col-span-3",
   "sm:col-span-2 lg:col-span-3",
-  "sm:col-span-2 lg:col-span-2",
+  "lg:col-span-2",
+  "lg:col-span-2",
   "lg:col-span-2",
 ];
-
-const MARKERS = ["◆", "◆", "▲", "▲"];
 
 export default function Awards() {
   return (
@@ -25,24 +26,39 @@ export default function Awards() {
         {HONORS.map((item, i) => (
           <Tile
             key={item.title + item.issuer}
-            accent={ACCENTS[i]}
-            span={SPANS[i]}
+            accent={ACCENTS[i % ACCENTS.length]}
+            span={SPANS[i % SPANS.length]}
             delay={i * 70}
             className="flex items-start gap-4 p-6 sm:p-7"
           >
-            <span aria-hidden="true" className="mt-1 shrink-0 text-[0.8rem] text-[var(--accent)]">
-              {MARKERS[i]}
+            <span
+              aria-hidden="true"
+              className="mt-1 shrink-0 text-[0.8rem] text-[var(--accent)]"
+            >
+              {item.kind === "honor" ? "◆" : "▲"}
             </span>
             <div className="min-w-0 flex-1">
               <h3 className="text-[1.02rem] font-bold leading-tight text-fg sm:text-[1.16rem]">
                 {item.title}
               </h3>
               <p className="mono mt-2 text-[0.72rem] leading-snug text-muted">{item.issuer}</p>
-              <p className="mono mt-3 text-[0.58rem] uppercase tracking-[0.24em] text-[var(--accent)]">
-                {item.kind === "certification" ? "certification" : "honor"}
-              </p>
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <p className="mono text-[0.58rem] uppercase tracking-[0.24em] text-[var(--accent)]">
+                  {item.kind === "certification" ? "certification" : "honor"}
+                </p>
+                {item.link && (
+                  <a
+                    href={item.link}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="chip mono text-fg/80 hover:text-[var(--accent)]"
+                  >
+                    verify ↗
+                  </a>
+                )}
+              </div>
             </div>
-            <p className="mono shrink-0 text-right text-[1rem] font-bold tabular-nums text-[var(--accent)]">
+            <p className="mono shrink-0 text-right text-[0.82rem] font-bold tabular-nums text-[var(--accent)] sm:text-[0.95rem]">
               {item.year}
             </p>
           </Tile>
