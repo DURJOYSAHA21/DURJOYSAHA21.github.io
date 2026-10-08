@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# generated cover sources (public/covers holds the shipped crops)
+/vibe_images

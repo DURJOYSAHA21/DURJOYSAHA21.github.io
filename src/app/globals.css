@@ -1,26 +1,896 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------- tokens */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ink: #1c3552;
+  --ink-2: #2a4a6d;
+  --panel: #38597e;
+  --line: rgba(242, 206, 140, 0.3);
+  --gold: #f5c96a;
+  --brass: #e3ad4a;
+  --teal: #86e2cd;
+  --clay: #faa87c;
+  --fg: #f8f2e7;
+  --muted: #c3d3e5;
+  /* one shell for the whole page: grows with the viewport, then caps */
+  --shell: min(1720px, 100%);
+  --gutter: clamp(1.15rem, 3.2vw, 3.5rem);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-panel: var(--panel);
+  --color-line: var(--line);
+  --color-gold: var(--gold);
+  --color-brass: var(--brass);
+  --color-teal: var(--teal);
+  --color-clay: var(--clay);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --font-sans: var(--font-space-grotesk);
+  --font-display: var(--font-fraunces);
+  --font-mono: var(--font-jetbrains);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background:
+    radial-gradient(92% 60% at 50% -14%, #4a7bad 0%, transparent 60%),
+    linear-gradient(178deg, #2a4a6b 0%, #1c3552 46%, #172d45 100%);
+  background-attachment: fixed;
+  color: var(--fg);
+  font-family: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--gold) 45%, transparent);
+  color: #16293f;
+}
+
+/* Classes live in the components layer so Tailwind utilities can still win. */
+@layer components {
+  .mono {
+    font-family: var(--font-jetbrains), ui-monospace, monospace;
+  }
+
+  .display {
+    font-family: var(--font-display), ui-serif, Georgia, serif;
+  }
+
+  /* ------------------------------------------------------- ambient layers */
+
+  .glowfield {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(28px);
+    will-change: transform;
+  }
+
+  .glow-a {
+    top: -26vh;
+    left: -8vw;
+    width: 58vw;
+    height: 58vw;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--gold) 26%, transparent),
+      transparent 66%
+    );
+    animation: drift-a 28s ease-in-out infinite alternate;
+  }
+
+  .glow-b {
+    top: 16vh;
+    right: -18vw;
+    width: 52vw;
+    height: 52vw;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--teal) 17%, transparent),
+      transparent 66%
+    );
+    animation: drift-b 34s ease-in-out infinite alternate;
+  }
+
+  .glow-c {
+    bottom: -30vh;
+    left: 22vw;
+    width: 60vw;
+    height: 60vw;
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--clay) 16%, transparent),
+      transparent 66%
+    );
+    animation: drift-c 31s ease-in-out infinite alternate;
+  }
+
+  @keyframes drift-a {
+    to {
+      transform: translate3d(7vw, 6vh, 0) scale(1.1);
+    }
+  }
+
+  @keyframes drift-b {
+    to {
+      transform: translate3d(-9vw, 8vh, 0) scale(0.94);
+    }
+  }
+
+  @keyframes drift-c {
+    to {
+      transform: translate3d(5vw, -9vh, 0) scale(1.06);
+    }
+  }
+
+  /* drafting grid, sits under the content */
+  .hairgrid {
+    background-image:
+      linear-gradient(to right, rgba(245, 205, 110, 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(245, 205, 110, 0.07) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  .grain {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    pointer-events: none;
+    opacity: 0.15;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+    animation: grain-shift 6s steps(6, end) infinite;
+  }
+
+  @keyframes grain-shift {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+    25% {
+      transform: translate3d(-2%, 1%, 0);
+    }
+    50% {
+      transform: translate3d(1%, -2%, 0);
+    }
+    75% {
+      transform: translate3d(-1%, -1%, 0);
+    }
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  .spotlight {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      520px circle at var(--px, 50%) var(--py, 28%),
+      color-mix(in srgb, var(--gold) 18%, transparent),
+      transparent 60%
+    );
+  }
+
+  /* ------------------------------------------------------------ accents */
+
+  .accent-gold {
+    --accent: var(--gold);
+  }
+  .accent-brass {
+    --accent: var(--brass);
+  }
+  .accent-teal {
+    --accent: var(--teal);
+  }
+  .accent-clay {
+    --accent: var(--clay);
+  }
+
+  /* ------------------------------------------------------------ surfaces
+     One card material for the whole site: an obsidian panel floating over the
+     navy page. It separates by depth and light rather than by going pale — the
+     fill drops below the page's mid-navy, a gold rim catches the edge, the
+     accent glows out of the top-right corner, and the drop shadow darkens the
+     page underneath the card. Same tokens as the page, so type stays light. */
+
+  .tile {
+    position: relative;
+    border: 1px solid
+      color-mix(in srgb, var(--accent, var(--gold)) 30%, rgba(245, 201, 106, 0.18));
+    border-radius: 18px;
+    background:
+      repeating-linear-gradient(
+        115deg,
+        rgba(255, 255, 255, 0.016) 0 1px,
+        transparent 1px 6px
+      ),
+      radial-gradient(
+        120% 95% at 100% 0%,
+        color-mix(in srgb, var(--accent, var(--gold)) 15%, transparent),
+        transparent 56%
+      ),
+      linear-gradient(158deg, #0a1728 0%, #07131f 55%, #040e19 100%);
+    box-shadow:
+      0 26px 52px -14px rgba(2, 9, 17, 0.9),
+      0 0 44px -10px color-mix(in srgb, var(--accent, var(--gold)) 34%, transparent),
+      inset 0 1px 0 rgba(255, 240, 205, 0.16);
+    transition:
+      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.4s ease,
+      box-shadow 0.4s ease;
+  }
+
+  .tile:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--accent, var(--gold)) 68%, transparent);
+    box-shadow:
+      0 40px 76px -16px rgba(2, 9, 17, 0.95),
+      0 0 62px -6px color-mix(in srgb, var(--accent, var(--gold)) 55%, transparent),
+      inset 0 1px 0 rgba(255, 240, 205, 0.26);
+  }
+
+  /* bento signature: a filament of accent along the top edge */
+  .tile-bar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 22px;
+    width: 46px;
+    height: 3px;
+    border-radius: 0 0 4px 4px;
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--accent, var(--gold)) 95%, transparent),
+      transparent
+    );
+    box-shadow: 0 0 14px color-mix(in srgb, var(--accent, var(--gold)) 55%, transparent);
+    transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .tile-bar:hover::before {
+    width: 112px;
+  }
+
+  /* shared page shell: nav, hero, every section and the footer align to it */
+  .shell {
+    width: 100%;
+    max-width: var(--shell);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  /* bento: one 6-column board per section, dense so big tiles fill the gaps */
+  .bento {
+    display: grid;
+    grid-auto-flow: dense;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .bento {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .bento {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 1.15rem;
+    }
+  }
+
+  /* the board breathes a little more once it is allowed to be this wide */
+  @media (min-width: 1500px) {
+    .bento {
+      gap: 1.4rem;
+    }
+  }
+
+  .sheen {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sheen::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(
+      110deg,
+      transparent 36%,
+      rgba(255, 244, 214, 0.12) 50%,
+      transparent 64%
+    );
+    background-size: 260% 100%;
+    background-position: 130% 0;
+    transition: background-position 0.9s ease;
+  }
+
+  .sheen:hover::after {
+    background-position: -30% 0;
+  }
+
+  .rule {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--gold) 62%, transparent),
+      color-mix(in srgb, var(--brass) 24%, transparent) 42%,
+      transparent
+    );
+  }
+
+  /* ------------------------------------------------------------- lead card
+     One material, one exception rule: each board gets a single lead card, and
+     it is the same obsidian panel lit harder from within — brighter rim, wider
+     accent wash, a longer filament along the top edge. Supporting cards never
+     change finish, so a board reads as a system with a hierarchy. */
+
+  .tile-lit {
+    border-color: color-mix(in srgb, var(--accent, var(--gold)) 72%, transparent);
+    background:
+      repeating-linear-gradient(
+        115deg,
+        rgba(255, 255, 255, 0.02) 0 1px,
+        transparent 1px 6px
+      ),
+      radial-gradient(
+        125% 105% at 6% 0%,
+        color-mix(in srgb, var(--accent, var(--gold)) 30%, transparent),
+        transparent 62%
+      ),
+      linear-gradient(158deg, #12283f 0%, #0a1a2c 58%, #06111f 100%);
+    box-shadow:
+      0 30px 60px -12px rgba(2, 9, 17, 0.92),
+      0 0 70px -6px color-mix(in srgb, var(--accent, var(--gold)) 55%, transparent),
+      inset 0 1px 0 rgba(255, 240, 205, 0.26);
+  }
+
+  .tile-lit:hover {
+    border-color: color-mix(in srgb, var(--accent, var(--gold)) 90%, transparent);
+    box-shadow:
+      0 46px 84px -14px rgba(2, 9, 17, 0.96),
+      0 0 92px -2px color-mix(in srgb, var(--accent, var(--gold)) 72%, transparent),
+      inset 0 1px 0 rgba(255, 240, 205, 0.34);
+  }
+
+  .tile-lit.tile-bar::before {
+    width: 96px;
+  }
+
+  .tile-lit.tile-bar:hover::before {
+    width: 168px;
+  }
+
+  /* the stamp settles as the card is lifted */
+  .tile:hover .seal {
+    transform: rotate(3deg) scale(1.05);
+  }
+
+  /* rubber stamp corner */
+  .seal {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    display: grid;
+    place-items: center;
+    width: 62px;
+    height: 62px;
+    border: 1px dashed color-mix(in srgb, var(--accent, var(--gold)) 62%, transparent);
+    border-radius: 50%;
+    transform: rotate(-9deg);
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--accent, var(--gold)) 16%, transparent),
+      transparent 68%
+    );
+    pointer-events: none;
+  }
+
+  .seal::after {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border: 1px solid color-mix(in srgb, var(--accent, var(--gold)) 34%, transparent);
+    border-radius: 50%;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.07);
+    padding: 0.3rem 0.7rem;
+    font-size: 0.74rem;
+    line-height: 1.2;
+    transition:
+      border-color 0.3s ease,
+      background 0.3s ease,
+      color 0.3s ease;
+  }
+
+  .chip:hover {
+    border-color: color-mix(in srgb, var(--accent, var(--gold)) 55%, transparent);
+    background: color-mix(in srgb, var(--accent, var(--gold)) 12%, transparent);
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  /* ---------------------------------------------------------- typography */
+
+  .gold-text {
+    color: var(--gold);
+    text-shadow: 0 0 22px color-mix(in srgb, var(--gold) 32%, transparent);
+  }
+
+  .grad-text {
+    background: linear-gradient(96deg, var(--fg) 6%, var(--gold) 52%, var(--brass) 94%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .ghost-num {
+    position: absolute;
+    top: -2.5rem;
+    right: 0;
+    z-index: 0;
+    font-family: var(--font-display), ui-serif, Georgia, serif;
+    font-size: clamp(7rem, 17vw, 13rem);
+    font-weight: 600;
+    line-height: 0.78;
+    color: transparent;
+    -webkit-text-stroke: 1px color-mix(in srgb, var(--accent, var(--gold)) 20%, transparent);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .shimmer {
+    background: linear-gradient(
+      100deg,
+      var(--fg) 18%,
+      color-mix(in srgb, var(--accent, var(--gold)) 92%, white) 44%,
+      var(--fg) 72%
+    );
+    background-size: 240% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shimmer 8s linear infinite;
+  }
+
+  @keyframes shimmer {
+    to {
+      background-position: -240% 0;
+    }
+  }
+
+  /* -------------------------------------------------------------- motion */
+
+  .enter {
+    animation: enter 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @keyframes enter {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 26px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 0.7s ease,
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .sweep {
+    background: linear-gradient(
+      110deg,
+      transparent 20%,
+      color-mix(in srgb, var(--gold) 30%, transparent) 50%,
+      transparent 80%
+    );
+    background-size: 220% 100%;
+    animation: sweep 4.2s linear infinite;
+  }
+
+  @keyframes sweep {
+    to {
+      background-position: -220% 0;
+    }
+  }
+
+  .pulse-dot {
+    animation: pulse-dot 2.2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%,
+    100% {
+      opacity: 1;
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent, var(--gold)) 50%, transparent);
+    }
+    50% {
+      opacity: 0.55;
+      box-shadow: 0 0 0 6px transparent;
+    }
+  }
+
+  .float {
+    animation: float 7s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-9px);
+    }
+  }
+
+  .spin-slow {
+    animation: spin-slow 16s linear infinite;
+  }
+
+  @keyframes spin-slow {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .glitch {
+    position: relative;
+  }
+
+  .glitch::before,
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  .glitch::before {
+    color: var(--teal);
+    animation: glitch-a 6.5s steps(1, end) infinite;
+  }
+
+  .glitch::after {
+    color: var(--clay);
+    animation: glitch-b 6.5s steps(1, end) infinite;
+  }
+
+  @keyframes glitch-a {
+    0%,
+    90%,
+    100% {
+      transform: translate3d(0, 0, 0);
+      opacity: 0;
+    }
+    92% {
+      transform: translate3d(-4px, -2px, 0);
+      opacity: 0.7;
+    }
+    95% {
+      transform: translate3d(3px, 1px, 0);
+      opacity: 0.45;
+    }
+  }
+
+  @keyframes glitch-b {
+    0%,
+    86%,
+    100% {
+      transform: translate3d(0, 0, 0);
+      opacity: 0;
+    }
+    88% {
+      transform: translate3d(4px, 2px, 0);
+      opacity: 0.6;
+    }
+    93% {
+      transform: translate3d(-3px, -1px, 0);
+      opacity: 0.4;
+    }
+  }
+
+  .cursor::after {
+    content: "";
+    display: inline-block;
+    width: 0.55em;
+    height: 1.05em;
+    margin-left: 0.12em;
+    background: var(--gold);
+    vertical-align: text-bottom;
+    animation: blink 1.05s steps(1, end) infinite;
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  /* ------------------------------------------------------------ marquee */
+
+  .marquee {
+    display: flex;
+    overflow: hidden;
+    user-select: none;
+    mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  }
+
+  .marquee-track {
+    display: flex;
+    flex-shrink: 0;
+    gap: 2.5rem;
+    align-items: center;
+    padding-right: 2.5rem;
+    white-space: nowrap;
+    animation: marquee 34s linear infinite;
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  /* ------------------------------------------------------- generated art */
+
+  .card-art {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .card-art-lines {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: radial-gradient(ellipse at 50% 120%, black, transparent 76%);
+  }
+
+  .art-wave {
+    background:
+      radial-gradient(
+        90% 120% at 15% 0%,
+        color-mix(in srgb, var(--gold) 30%, transparent),
+        transparent 62%
+      ),
+      linear-gradient(155deg, #3d6288 0%, #264a6e 100%);
+  }
+
+  .art-spect {
+    background:
+      radial-gradient(
+        80% 110% at 85% 10%,
+        color-mix(in srgb, var(--teal) 24%, transparent),
+        transparent 60%
+      ),
+      linear-gradient(150deg, #38597d 0%, #22436a 100%);
+  }
+
+  .art-rank {
+    background:
+      radial-gradient(
+        90% 120% at 25% 100%,
+        color-mix(in srgb, var(--clay) 28%, transparent),
+        transparent 62%
+      ),
+      linear-gradient(160deg, #435d7e 0%, #254a6d 100%);
+  }
+
+  .art-mesh {
+    background:
+      radial-gradient(
+        85% 115% at 70% 15%,
+        color-mix(in srgb, var(--brass) 34%, transparent),
+        transparent 62%
+      ),
+      linear-gradient(145deg, #3b5372 0%, #234566 100%);
+  }
+
+  .art-node {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: art-node 3.4s ease-in-out infinite;
+  }
+
+  @keyframes art-node {
+    0%,
+    100% {
+      opacity: 0.35;
+      transform: scale(0.85);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+  }
+
+  .art-bar {
+    transform-box: fill-box;
+    transform-origin: bottom;
+    animation: art-bar 1.9s ease-in-out infinite;
+  }
+
+  @keyframes art-bar {
+    0%,
+    100% {
+      transform: scaleY(0.45);
+    }
+    50% {
+      transform: scaleY(1);
+    }
+  }
+
+  .art-scan {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      color-mix(in srgb, var(--accent, var(--gold)) 20%, transparent) 46%,
+      rgba(255, 240, 205, 0.42) 50%,
+      color-mix(in srgb, var(--accent, var(--gold)) 20%, transparent) 54%,
+      transparent 100%
+    );
+    background-size: 100% 260%;
+    animation: art-scan 4.6s ease-in-out infinite;
+    mix-blend-mode: screen;
+  }
+
+  @keyframes art-scan {
+    0% {
+      background-position: 0 -130%;
+    }
+    100% {
+      background-position: 0 130%;
+    }
+  }
+
+  /* --------------------------------------------------------- tilt + glare */
+
+  .tilt {
+    transform-style: preserve-3d;
+  }
+
+  .tilt-glare {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    background: radial-gradient(
+      340px circle at var(--glare-x, 50%) var(--glare-y, 50%),
+      color-mix(in srgb, var(--gold) 14%, transparent),
+      transparent 62%
+    );
+  }
+
+  .tilt:hover .tilt-glare {
+    opacity: 1;
+  }
+
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Page scrollbar sits outside the layers so it always applies. */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #172d45;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--brass), var(--gold));
+  border-radius: 999px;
+  border: 2px solid #172d45;
+}
+
+/* --------------------------------------------------------- reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .enter,
+  .glitch::before,
+  .glitch::after,
+  .sweep,
+  .marquee-track,
+  .pulse-dot,
+  .float,
+  .spin-slow,
+  .art-bar,
+  .art-node,
+  .art-scan,
+  .glow-a,
+  .glow-b,
+  .glow-c,
+  .grain,
+  .shimmer,
+  .cursor::after {
+    animation: none !important;
+  }
+  .sheen::after {
+    display: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .tile:hover {
+    transform: none;
+  }
+  .tile-bar:hover::before {
+    width: 46px;
+  }
+  .tilt {
+    transform: none !important;
+  }
+  .tilt-glare {
+    display: none;
+  }
 }
