@@ -17,8 +17,9 @@ npm run build    # writes the static site to out/
 - The board each section renders is a `bento` grid of `Tile`s. One card material, and `lead` lights
   the single headline card per board.
 - Theme tokens, the card surface and every animation are in `src/app/globals.css`.
-- Cover art is pre-rendered: `public/covers` holds the shipped 7:3 crops, `scripts/make-covers.mjs`
-  regenerates them from the gitignored `vibe_images/` sources.
+- Cards carry no imagery. Build, arena and paper tiles all share one typographic shape — label,
+  accent line, bold title, note, chips. No screenshots are shipped, because none of the repositories
+  have any.
 - `src/lib/github.ts` is the only runtime data source.
 
 ## Live data

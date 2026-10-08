@@ -138,11 +138,18 @@ body {
   }
 
   /* drafting grid, sits under the content */
+  /* graph paper: a fine grid with a heavier line every fifth cell */
   .hairgrid {
     background-image:
-      linear-gradient(to right, rgba(245, 205, 110, 0.07) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(245, 205, 110, 0.07) 1px, transparent 1px);
-    background-size: 64px 64px;
+      linear-gradient(to right, rgba(245, 205, 110, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(245, 205, 110, 0.05) 1px, transparent 1px),
+      linear-gradient(to right, rgba(245, 205, 110, 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(245, 205, 110, 0.1) 1px, transparent 1px);
+    background-size:
+      32px 32px,
+      32px 32px,
+      160px 160px,
+      160px 160px;
   }
 
   .grain {
@@ -174,6 +181,20 @@ body {
     }
   }
 
+  /* the whole page sits behind a faint CRT mask */
+  .scanlines {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    pointer-events: none;
+    opacity: 0.32;
+    background: repeating-linear-gradient(
+      180deg,
+      rgba(2, 9, 17, 0.3) 0 1px,
+      transparent 1px 4px
+    );
+  }
+
   .spotlight {
     position: fixed;
     inset: 0;
@@ -202,17 +223,17 @@ body {
   }
 
   /* ------------------------------------------------------------ surfaces
-     One card material for the whole site: an obsidian panel floating over the
-     navy page. It separates by depth and light rather than by going pale — the
-     fill drops below the page's mid-navy, a gold rim catches the edge, the
-     accent glows out of the top-right corner, and the drop shadow darkens the
-     page underneath the card. Same tokens as the page, so type stays light. */
+     One card material for the whole site: a panel of dark terminal glass laid
+     over the navy page, not a pane floating above it. It separates by cast
+     shadow and light — the fill drops below the page's mid-navy, a scanline
+     layer grains the surface, a gold rim catches the edge, and a hard offset
+     block falls behind it. Same tokens as the page, so type stays light. */
 
   .tile {
     position: relative;
     border: 1px solid
       color-mix(in srgb, var(--accent, var(--gold)) 30%, rgba(245, 201, 106, 0.18));
-    border-radius: 18px;
+    border-radius: 3px;
     background:
       repeating-linear-gradient(
         115deg,
@@ -225,10 +246,12 @@ body {
         transparent 56%
       ),
       linear-gradient(158deg, #0a1728 0%, #07131f 55%, #040e19 100%);
+    /* hard offset block instead of a soft bloom — the card sits on the page
+       like a window pulled off the stack, not a pane of glass above it */
     box-shadow:
-      0 26px 52px -14px rgba(2, 9, 17, 0.9),
-      0 0 44px -10px color-mix(in srgb, var(--accent, var(--gold)) 34%, transparent),
-      inset 0 1px 0 rgba(255, 240, 205, 0.16);
+      6px 6px 0 rgba(3, 11, 20, 0.62),
+      0 18px 34px -22px rgba(2, 9, 17, 0.9),
+      inset 0 1px 0 rgba(255, 240, 205, 0.14);
     transition:
       transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
       border-color 0.4s ease,
@@ -236,29 +259,23 @@ body {
   }
 
   .tile:hover {
-    transform: translateY(-4px);
+    transform: translate(-2px, -3px);
     border-color: color-mix(in srgb, var(--accent, var(--gold)) 68%, transparent);
     box-shadow:
-      0 40px 76px -16px rgba(2, 9, 17, 0.95),
-      0 0 62px -6px color-mix(in srgb, var(--accent, var(--gold)) 55%, transparent),
-      inset 0 1px 0 rgba(255, 240, 205, 0.26);
+      10px 10px 0 rgba(3, 11, 20, 0.7),
+      0 26px 44px -24px rgba(2, 9, 17, 0.95),
+      inset 0 1px 0 rgba(255, 240, 205, 0.24);
   }
 
-  /* bento signature: a filament of accent along the top edge */
+  /* bento signature: a hard cursor bar along the top edge */
   .tile-bar::before {
     content: "";
     position: absolute;
     top: 0;
-    left: 22px;
+    left: 18px;
     width: 46px;
-    height: 3px;
-    border-radius: 0 0 4px 4px;
-    background: linear-gradient(
-      90deg,
-      color-mix(in srgb, var(--accent, var(--gold)) 95%, transparent),
-      transparent
-    );
-    box-shadow: 0 0 14px color-mix(in srgb, var(--accent, var(--gold)) 55%, transparent);
+    height: 4px;
+    background: var(--accent, var(--gold));
     transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
@@ -328,24 +345,25 @@ body {
     background-position: -30% 0;
   }
 
+  /* divider: a dashed rule instead of a gradient fade, so a section break
+     reads like a separator typed into a text file */
   .rule {
     height: 1px;
-    background: linear-gradient(
+    background: repeating-linear-gradient(
       90deg,
-      color-mix(in srgb, var(--gold) 62%, transparent),
-      color-mix(in srgb, var(--brass) 24%, transparent) 42%,
-      transparent
+      color-mix(in srgb, var(--gold) 58%, transparent) 0 7px,
+      transparent 7px 14px
     );
   }
 
   /* ------------------------------------------------------------- lead card
      One material, one exception rule: each board gets a single lead card, and
-     it is the same obsidian panel lit harder from within — brighter rim, wider
-     accent wash, a longer filament along the top edge. Supporting cards never
+     it is the same panel with a harder cast — the offset block is accent-tinted
+     and wider, the fill burns brighter at the corner. Supporting cards never
      change finish, so a board reads as a system with a hierarchy. */
 
   .tile-lit {
-    border-color: color-mix(in srgb, var(--accent, var(--gold)) 72%, transparent);
+    border-color: color-mix(in srgb, var(--accent, var(--gold)) 78%, transparent);
     background:
       repeating-linear-gradient(
         115deg,
@@ -359,16 +377,16 @@ body {
       ),
       linear-gradient(158deg, #12283f 0%, #0a1a2c 58%, #06111f 100%);
     box-shadow:
-      0 30px 60px -12px rgba(2, 9, 17, 0.92),
-      0 0 70px -6px color-mix(in srgb, var(--accent, var(--gold)) 55%, transparent),
+      8px 8px 0 color-mix(in srgb, var(--accent, var(--gold)) 24%, rgba(3, 11, 20, 0.7)),
+      0 22px 40px -24px rgba(2, 9, 17, 0.92),
       inset 0 1px 0 rgba(255, 240, 205, 0.26);
   }
 
   .tile-lit:hover {
-    border-color: color-mix(in srgb, var(--accent, var(--gold)) 90%, transparent);
+    border-color: color-mix(in srgb, var(--accent, var(--gold)) 92%, transparent);
     box-shadow:
-      0 46px 84px -14px rgba(2, 9, 17, 0.96),
-      0 0 92px -2px color-mix(in srgb, var(--accent, var(--gold)) 72%, transparent),
+      13px 13px 0 color-mix(in srgb, var(--accent, var(--gold)) 32%, rgba(3, 11, 20, 0.72)),
+      0 30px 52px -26px rgba(2, 9, 17, 0.95),
       inset 0 1px 0 rgba(255, 240, 205, 0.34);
   }
 
@@ -419,11 +437,11 @@ body {
     align-items: center;
     gap: 0.4rem;
     border: 1px solid var(--line);
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.07);
-    padding: 0.3rem 0.7rem;
-    font-size: 0.74rem;
-    line-height: 1.2;
+    border-radius: 2px;
+    background: rgba(3, 11, 20, 0.78);
+    padding: 0.26rem 0.6rem;
+    font-size: 0.72rem;
+    line-height: 1.25;
     transition:
       border-color 0.3s ease,
       background 0.3s ease,
@@ -431,15 +449,15 @@ body {
   }
 
   .chip:hover {
-    border-color: color-mix(in srgb, var(--accent, var(--gold)) 55%, transparent);
-    background: color-mix(in srgb, var(--accent, var(--gold)) 12%, transparent);
+    border-color: color-mix(in srgb, var(--accent, var(--gold)) 70%, transparent);
+    background: color-mix(in srgb, var(--accent, var(--gold)) 16%, rgba(3, 11, 20, 0.78));
   }
 
   .badge {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
+    border-radius: 2px;
     font-weight: 700;
     letter-spacing: 0.04em;
   }
@@ -451,24 +469,17 @@ body {
     text-shadow: 0 0 22px color-mix(in srgb, var(--gold) 32%, transparent);
   }
 
-  .grad-text {
-    background: linear-gradient(96deg, var(--fg) 6%, var(--gold) 52%, var(--brass) 94%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
   .ghost-num {
     position: absolute;
     top: -2.5rem;
     right: 0;
     z-index: 0;
-    font-family: var(--font-display), ui-serif, Georgia, serif;
-    font-size: clamp(7rem, 17vw, 13rem);
-    font-weight: 600;
+    font-family: var(--font-jetbrains), ui-monospace, monospace;
+    font-size: clamp(6rem, 15vw, 11.5rem);
+    font-weight: 800;
     line-height: 0.78;
     color: transparent;
-    -webkit-text-stroke: 1px color-mix(in srgb, var(--accent, var(--gold)) 20%, transparent);
+    -webkit-text-stroke: 1px color-mix(in srgb, var(--accent, var(--gold)) 22%, transparent);
     pointer-events: none;
     user-select: none;
   }
@@ -683,123 +694,6 @@ body {
     animation-play-state: paused;
   }
 
-  /* ------------------------------------------------------- generated art */
-
-  .card-art {
-    position: relative;
-    overflow: hidden;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .card-art-lines {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-    background-size: 28px 28px;
-    mask-image: radial-gradient(ellipse at 50% 120%, black, transparent 76%);
-  }
-
-  .art-wave {
-    background:
-      radial-gradient(
-        90% 120% at 15% 0%,
-        color-mix(in srgb, var(--gold) 30%, transparent),
-        transparent 62%
-      ),
-      linear-gradient(155deg, #3d6288 0%, #264a6e 100%);
-  }
-
-  .art-spect {
-    background:
-      radial-gradient(
-        80% 110% at 85% 10%,
-        color-mix(in srgb, var(--teal) 24%, transparent),
-        transparent 60%
-      ),
-      linear-gradient(150deg, #38597d 0%, #22436a 100%);
-  }
-
-  .art-rank {
-    background:
-      radial-gradient(
-        90% 120% at 25% 100%,
-        color-mix(in srgb, var(--clay) 28%, transparent),
-        transparent 62%
-      ),
-      linear-gradient(160deg, #435d7e 0%, #254a6d 100%);
-  }
-
-  .art-mesh {
-    background:
-      radial-gradient(
-        85% 115% at 70% 15%,
-        color-mix(in srgb, var(--brass) 34%, transparent),
-        transparent 62%
-      ),
-      linear-gradient(145deg, #3b5372 0%, #234566 100%);
-  }
-
-  .art-node {
-    transform-box: fill-box;
-    transform-origin: center;
-    animation: art-node 3.4s ease-in-out infinite;
-  }
-
-  @keyframes art-node {
-    0%,
-    100% {
-      opacity: 0.35;
-      transform: scale(0.85);
-    }
-    50% {
-      opacity: 1;
-      transform: scale(1.15);
-    }
-  }
-
-  .art-bar {
-    transform-box: fill-box;
-    transform-origin: bottom;
-    animation: art-bar 1.9s ease-in-out infinite;
-  }
-
-  @keyframes art-bar {
-    0%,
-    100% {
-      transform: scaleY(0.45);
-    }
-    50% {
-      transform: scaleY(1);
-    }
-  }
-
-  .art-scan {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to bottom,
-      transparent 0%,
-      color-mix(in srgb, var(--accent, var(--gold)) 20%, transparent) 46%,
-      rgba(255, 240, 205, 0.42) 50%,
-      color-mix(in srgb, var(--accent, var(--gold)) 20%, transparent) 54%,
-      transparent 100%
-    );
-    background-size: 100% 260%;
-    animation: art-scan 4.6s ease-in-out infinite;
-    mix-blend-mode: screen;
-  }
-
-  @keyframes art-scan {
-    0% {
-      background-position: 0 -130%;
-    }
-    100% {
-      background-position: 0 130%;
-    }
-  }
-
   /* --------------------------------------------------------- tilt + glare */
 
   .tilt {
@@ -844,7 +738,7 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(var(--brass), var(--gold));
-  border-radius: 999px;
+  border-radius: 0;
   border: 2px solid #172d45;
 }
 
@@ -862,9 +756,6 @@ body {
   .pulse-dot,
   .float,
   .spin-slow,
-  .art-bar,
-  .art-node,
-  .art-scan,
   .glow-a,
   .glow-b,
   .glow-c,

@@ -24,7 +24,7 @@ function TypedTitle({ text }: { text: string }) {
   return (
     <h2
       ref={ref}
-      className="display shrink-0 text-[1.9rem] font-semibold leading-none sm:text-[2.35rem]"
+      className="mono shrink-0 text-[1.45rem] font-bold uppercase leading-none tracking-[0.04em] sm:text-[1.8rem]"
     >
       <span className="sr-only">{text}</span>
       <span aria-hidden="true" className={inView ? "shimmer" : "text-fg"}>
@@ -66,14 +66,17 @@ export default function Section({
       <div className="relative z-10">
         <header className="mb-10">
           <div className="flex items-center gap-3">
-            <span className="mono rounded-md border border-[var(--line)] bg-[color-mix(in_srgb,var(--accent)_14%,transparent)] px-2 py-1 text-[0.62rem] text-[var(--accent)]">
+            <span className="mono rounded-[3px] border border-[color-mix(in_srgb,var(--accent)_55%,transparent)] bg-[rgba(3,11,20,0.72)] px-2 py-1 text-[0.62rem] text-[var(--accent)]">
               {index}
             </span>
             <TypedTitle text={title} />
             <span aria-hidden="true" className="rule ml-2 flex-1" />
           </div>
           {kicker && (
-            <p className="mono mt-3 max-w-2xl text-[0.7rem] uppercase tracking-[0.22em] text-muted">
+            <p className="mono mt-3 flex max-w-2xl gap-2 text-[0.7rem] uppercase tracking-[0.22em] text-muted">
+              <span aria-hidden="true" className="shrink-0 text-[var(--accent)]">
+                {">"}
+              </span>
               {kicker}
             </p>
           )}

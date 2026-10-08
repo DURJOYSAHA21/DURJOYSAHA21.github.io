@@ -73,7 +73,7 @@ export default function About() {
           </h3>
           <ul className="flex flex-wrap gap-2">
             {PROFILE.self.map((word) => (
-              <li key={word} className="chip display text-[0.95rem] text-fg/90">
+              <li key={word} className="chip mono text-[0.78rem] text-fg/90">
                 {word}
               </li>
             ))}

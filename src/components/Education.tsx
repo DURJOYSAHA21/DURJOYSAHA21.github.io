@@ -66,7 +66,7 @@ function EduTile({
           {edu.level}
         </span>
         <div className="min-w-0">
-          <h3 className="display text-[1.05rem] font-semibold leading-tight text-fg sm:text-[1.2rem]">
+          <h3 className="text-[1.02rem] font-bold leading-tight text-fg sm:text-[1.16rem]">
             {edu.degree}
           </h3>
           <p className="mt-1 text-[0.84rem] leading-snug text-muted">{edu.school}</p>
@@ -78,7 +78,7 @@ function EduTile({
           <p className="mono text-[0.6rem] uppercase tracking-[0.24em] text-muted">
             {edu.resultLabel}
           </p>
-          <p className="display mt-1 text-[1.7rem] font-semibold leading-none text-[var(--accent)] sm:text-[2.1rem]">
+          <p className="mono mt-1 text-[1.5rem] font-bold leading-none tabular-nums text-[var(--accent)] sm:text-[1.85rem]">
             {edu.result}
           </p>
         </div>

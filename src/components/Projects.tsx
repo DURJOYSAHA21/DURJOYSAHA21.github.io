@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { getRepos, type Repo } from "@/lib/github";
 import { ARENAS, BUILDS, GITHUB_USER, RESEARCH_BUILDS, type Build } from "@/lib/site";
 import CountUp from "./CountUp";
-import CoverBand from "./CoverBand";
 import Reveal from "./Reveal";
 import Section from "./Section";
+import Tile from "./Tile";
 
 function relTime(iso: string) {
   const then = new Date(iso).getTime();
@@ -62,7 +62,7 @@ export default function Projects() {
           <div className="tile tile-lit tile-bar sheen accent-gold grid grid-cols-2 gap-y-6 p-6 sm:grid-cols-3 sm:p-7 lg:grid-cols-6">
             {TALLY.map((item) => (
               <div key={item.label}>
-                <p className="display text-[1.9rem] font-semibold leading-none text-[var(--accent)]">
+                <p className="mono text-[1.7rem] font-bold leading-none tabular-nums text-[var(--accent)]">
                   <CountUp value={item.value} format={(n) => String(Math.round(n))} />
                 </p>
                 <p className="mono mt-2 text-[0.62rem] uppercase tracking-[0.2em] text-fg/85">
@@ -78,14 +78,26 @@ export default function Projects() {
       <Band title="course projects" aside="built for the degree, then defended" />
       <div className="bento">
         {course.map((build, i) => (
-          <BuildCard key={build.repo} build={build} live={findRepo(repos, build.repo)} delay={i * 80} />
+          <BuildCard
+            key={build.title}
+            build={build}
+            index={i + 1}
+            live={findRepo(repos, build.repo)}
+            delay={i * 80}
+          />
         ))}
       </div>
 
       <Band title="built for myself" aside="no module attached — these started because I needed them" />
       <div className="bento">
         {personal.map((build, i) => (
-          <BuildCard key={build.repo} build={build} live={findRepo(repos, build.repo)} delay={i * 80} />
+          <BuildCard
+            key={build.title}
+            build={build}
+            index={i + 1}
+            live={findRepo(repos, build.repo)}
+            delay={i * 80}
+          />
         ))}
       </div>
 
@@ -115,13 +127,13 @@ export default function Projects() {
   );
 }
 
-function findRepo(repos: Repo[] | null, name: string) {
-  return repos?.find((r) => r.name === name);
+function findRepo(repos: Repo[] | null, name?: string) {
+  return name ? repos?.find((r) => r.name === name) : undefined;
 }
 
 function Band({ title, aside }: { title: string; aside: string }) {
   return (
-    <h3 className="display mt-14 mb-5 flex items-baseline gap-4 text-[1.15rem] font-semibold text-fg/90">
+    <h3 className="mono mt-14 mb-5 flex items-baseline gap-4 text-[0.92rem] font-bold uppercase tracking-[0.18em] text-fg/90">
       {title}
       <span aria-hidden="true" className="rule flex-1" />
       <span className="mono text-[0.6rem] uppercase tracking-[0.24em] text-muted">{aside}</span>
@@ -129,48 +141,68 @@ function Band({ title, aside }: { title: string; aside: string }) {
   );
 }
 
-function BuildCard({ build, live, delay }: { build: Build; live?: Repo; delay: number }) {
-  return (
-    <Reveal delay={delay} className="sm:col-span-2 lg:col-span-3">
-      <a
-        href={live?.html_url ?? `https://github.com/${GITHUB_USER}/${build.repo}`}
-        target="_blank"
-        rel="noreferrer noopener"
-        className="tile tile-bar sheen group flex h-full flex-col overflow-hidden accent-gold"
-      >
-        <CoverBand src={build.cover} alt={`${build.title} — cover illustration`} art={build.art}>
-          <span className="chip mono absolute bottom-4 left-4 border-none bg-[#1c3552]/80 text-[#f8f2e7]/90 backdrop-blur-sm">
-            {build.period}
-          </span>
-        </CoverBand>
+function BuildCard({
+  build,
+  index,
+  live,
+  delay,
+}: {
+  build: Build;
+  index: number;
+  live?: Repo;
+  delay: number;
+}) {
+  const href =
+    live?.html_url ?? (build.repo ? `https://github.com/${GITHUB_USER}/${build.repo}` : null);
+  const when = live ? relTime(live.pushed_at) : null;
 
-        <div className="flex flex-1 flex-col p-5 sm:p-6">
-          <h4 className="display text-[1.1rem] font-semibold leading-tight text-fg transition-colors group-hover:text-[var(--accent)] sm:text-[1.25rem]">
-            {build.title}
-          </h4>
-          <p className="mt-2.5 text-[0.87rem] leading-relaxed text-fg/70">{build.blurb}</p>
-          <ul className="mt-4 flex flex-wrap gap-2">
-            {build.stack.map((tech) => (
-              <li key={tech} className="chip mono text-muted">
-                {tech}
-              </li>
-            ))}
-          </ul>
-          <div className="mono mt-auto flex items-center gap-3 border-t border-line pt-4 text-[0.68rem] text-muted">
-            <span className="truncate">{build.repo}</span>
-            <span className="ml-auto shrink-0 tabular-nums text-[var(--accent)]">
-              {live ? (
-                <>
-                  {live.stargazers_count > 0 ? `★ ${live.stargazers_count} · ` : ""}
-                  {relTime(live.pushed_at)}
-                </>
-              ) : (
-                "· · ·"
-              )}
-            </span>
-          </div>
+  return (
+    <Tile
+      accent={build.track === "course" ? "gold" : "teal"}
+      span="sm:col-span-2 lg:col-span-3"
+      delay={delay}
+      className="p-6 sm:p-7"
+    >
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <p className="mono text-[0.6rem] uppercase tracking-[0.24em] text-muted">
+            {build.track === "course" ? "course project" : "personal build"}{" "}
+            {String(index).padStart(2, "0")}
+          </p>
+          {build.period && (
+            <p className="mono mt-1.5 text-[0.95rem] font-bold leading-snug text-[var(--accent)]">
+              {build.period}
+            </p>
+          )}
         </div>
-      </a>
-    </Reveal>
+        {when && (
+          <p className="mono shrink-0 text-right text-[0.66rem] uppercase tracking-[0.2em] tabular-nums text-fg/70">
+            {live && live.stargazers_count > 0 && <>★ {live.stargazers_count}</>}
+            <br />
+            {when}
+          </p>
+        )}
+      </div>
+
+      <h4 className="mt-4 text-[1rem] font-bold leading-snug text-fg">{build.title}</h4>
+      <p className="mt-3 text-[0.86rem] leading-relaxed text-fg/70">{build.blurb}</p>
+      <div className="mt-4 flex flex-wrap items-center gap-2">
+        {build.stack.map((tech) => (
+          <span key={tech} className="chip mono text-muted">
+            {tech}
+          </span>
+        ))}
+        {href && (
+          <a
+            href={href}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="chip mono text-fg/80 hover:text-[var(--accent)]"
+          >
+            {build.repo ?? "repository"} ↗
+          </a>
+        )}
+      </div>
+    </Tile>
   );
 }

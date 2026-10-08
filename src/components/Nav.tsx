@@ -46,21 +46,21 @@ export default function Nav() {
     <header className="fixed inset-x-0 top-0 z-30 pt-3 sm:pt-4">
       <div className="shell">
       <nav
-        className={`flex w-full items-center gap-3 rounded-full border border-line bg-[rgba(30,56,84,0.72)] px-4 py-2.5 text-xs backdrop-blur-md transition-shadow duration-300 ${
-          lifted ? "shadow-[0_22px_50px_-28px_rgba(13,30,50,0.7)]" : ""
+        className={`flex w-full items-center gap-3 rounded-[3px] border border-[color-mix(in_srgb,var(--gold)_26%,rgba(245,201,106,0.16))] bg-[rgba(4,14,25,0.86)] px-4 py-2.5 text-xs backdrop-blur-md transition-shadow duration-300 ${
+          lifted ? "shadow-[6px_6px_0_rgba(3,11,20,0.6)]" : ""
         }`}
       >
-        <a href="#top" className="display grad-text shrink-0 text-base font-semibold tracking-wide">
-          Durjoy
+        <a href="#top" className="mono shrink-0 text-[0.78rem] font-bold tracking-[0.06em] text-gold">
+          durjoy:~$
         </a>
         <ul className="scrollbar-none -mx-1 flex flex-1 items-center gap-1 overflow-x-auto px-1 sm:justify-end sm:gap-1.5">
           {LINKS.map(({ id, label }) => (
             <li key={id} className="shrink-0">
               <a
                 href={`#${id}`}
-                className={`mono block whitespace-nowrap rounded-full px-3 py-1.5 text-[0.68rem] uppercase tracking-[0.14em] transition-colors ${
+                className={`mono block whitespace-nowrap rounded-[2px] px-3 py-1.5 text-[0.68rem] uppercase tracking-[0.14em] transition-colors ${
                   active === id
-                    ? "bg-[color-mix(in_srgb,var(--gold)_16%,transparent)] text-gold shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--gold)_42%,transparent)]"
+                    ? "bg-[color-mix(in_srgb,var(--gold)_18%,transparent)] text-gold shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--gold)_68%,transparent)]"
                     : "text-muted hover:bg-white/5 hover:text-fg"
                 }`}
               >

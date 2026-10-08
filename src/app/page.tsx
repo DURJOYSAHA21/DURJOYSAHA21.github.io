@@ -22,6 +22,7 @@ export default function Home() {
       <Spotlight />
       <EmberField />
       <div aria-hidden="true" className="hairgrid pointer-events-none fixed inset-[-10%] z-0" />
+      <div aria-hidden="true" className="scanlines" />
       <div aria-hidden="true" className="grain" />
       <Nav />
       <main className="relative z-10">

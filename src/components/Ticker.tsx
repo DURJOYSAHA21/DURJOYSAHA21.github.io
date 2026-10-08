@@ -20,7 +20,7 @@ export default function Ticker() {
   return (
     <div
       aria-hidden="true"
-      className="marquee border-y border-line bg-white/[0.05] py-3 backdrop-blur-sm"
+      className="marquee border-y border-line bg-[rgba(3,11,20,0.55)] py-3"
     >
       <Track />
       <Track />

@@ -60,7 +60,7 @@ export default function StatsStrip() {
               aria-hidden="true"
               className="spin-slow absolute inset-0 rounded-full border border-dashed border-[color-mix(in_srgb,var(--accent)_45%,transparent)]"
             />
-            <span className="display text-xl leading-none text-[var(--accent)]">
+            <span className="mono text-lg font-bold leading-none tabular-nums text-[var(--accent)]">
               <CountUp
                 value={stat.value}
                 format={(n) =>

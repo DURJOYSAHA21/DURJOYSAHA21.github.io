@@ -6,7 +6,7 @@ import Reveal from "./Reveal";
 
 /**
  * One bento tile. `lead` lights the board's single lead card; every other tile
- * keeps the same obsidian panel. Variety comes from span and hierarchy, not finish.
+ * keeps the same panel. Variety comes from span and hierarchy, not finish.
  */
 export default function Tile({
   children,

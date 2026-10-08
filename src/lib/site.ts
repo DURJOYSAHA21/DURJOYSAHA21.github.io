@@ -28,19 +28,14 @@ export const CONTACT = {
  * written for a paper lives with the paper (RESEARCH_BUILDS). Blurbs come from
  * the CV and from each repository's own README — nothing is invented here.
  */
-export type ArtKind = "wave" | "spect" | "rank" | "mesh";
-
 export type Build = {
   title: string;
-  repo: string;
+  /** Only when the code is actually on GitHub. */
+  repo?: string;
   track: "course" | "personal";
   period: string;
   stack: string[];
   blurb: string;
-  /** Picks the generated cover drawn for this card. */
-  art: ArtKind;
-  /** Rendered cover image, cropped to the card's 7:3 band. */
-  cover: string;
 };
 
 export const BUILDS: Build[] = [
@@ -52,8 +47,6 @@ export const BUILDS: Build[] = [
     stack: ["React", "Node.js", "Express", "MongoDB"],
     blurb:
       "The degree's full-stack project: an online learning platform where a student signs up, enrolls in a course, pays, chats, searches and filters, then sits an assessment. Built on MERN and written up as numbered test cases, so auth, payment security, compatibility, maintainability and search performance each got their own pass.",
-    art: "mesh",
-    cover: "/covers/skillhub.jpg",
   },
   {
     title: "Zoo Management System",
@@ -63,8 +56,6 @@ export const BUILDS: Build[] = [
     stack: ["C#", "ASP.NET", "SQL Server"],
     blurb:
       "An OOP-II project running a zoo: animals, staff, tasks and transactions, with real-time chat, OTP login, a zoo map, doctor assignment and a local banking system. The point was to make the object model visible in something that actually runs.",
-    art: "rank",
-    cover: "/covers/zoo-management-system.jpg",
   },
   {
     title: "Job Portal Management System",
@@ -74,8 +65,6 @@ export const BUILDS: Build[] = [
     stack: ["PHP", "MySQL"],
     blurb:
       "A hiring loop in one application with four separate surfaces — employer, job seeker, recruiter and admin — each seeing the same postings from a different seat. Built in PHP as a course project.",
-    art: "spect",
-    cover: "/covers/job-portal.jpg",
   },
   {
     title: "Shop Management System",
@@ -85,8 +74,14 @@ export const BUILDS: Build[] = [
     stack: ["Java"],
     blurb:
       "A shop-front exercise in Java: a customer browses laptops and phones and buys them while stock and sales move through the flow. Small on purpose — it was the course build for object-oriented modelling.",
-    art: "wave",
-    cover: "/covers/shop-management.jpg",
+  },
+  {
+    title: "Luffy — The Unknown Journey",
+    track: "course",
+    period: "",
+    stack: ["C++", "OpenGL", "GLUT"],
+    blurb:
+      "The computer graphics project: a small game where a player moves through an unknown journey, drawn and animated directly with GLUT in C++ — geometry, camera and motion written by hand instead of pulled from an engine.",
   },
   {
     title: "DevVault",
@@ -96,8 +91,6 @@ export const BUILDS: Build[] = [
     stack: ["C#", "CLI"],
     blurb:
       "A Windows developer-environment assistant for the command line, written because cloning someone else's repository should not cost an hour of guessing. It reports whether the environment is ready, what kind of project a folder holds, which frameworks and dependencies it uses, where each dependency came from, whether any is declared twice, which local ports are busy, and what to install after a fresh clone.",
-    art: "rank",
-    cover: "/covers/devvault.jpg",
   },
   {
     title: "JobMatch-BD",
@@ -107,8 +100,6 @@ export const BUILDS: Build[] = [
     stack: ["spaCy", "sentence-transformers", "FastAPI", "React"],
     blurb:
       "Job matching built for Bangladeshi CS and tech seekers. spaCy pulls structured requirements out of noisy postings, sentence-transformers ranks a resume against them, and a FastAPI backend serves a React front end so the ranking stays explainable instead of a bare score.",
-    art: "spect",
-    cover: "/covers/jobmatch-bd.jpg",
   },
 ];
 
@@ -121,7 +112,6 @@ export type Arena = {
   repo?: string;
   stack: string[];
   note: string;
-  cover: string;
 };
 
 export const ARENAS: Arena[] = [
@@ -133,7 +123,6 @@ export const ARENAS: Arena[] = [
     repo: "gridwise-llm",
     stack: ["Gemini", "PuLP", "FastAPI"],
     note: "Built for the preliminary round: a public HTTP API that reads a campus operator's notes with Gemini, then hands the numbers to a PuLP optimiser and returns a cost-optimal 24-hour energy schedule. The model interprets the brief — it never gets to fake the arithmetic.",
-    cover: "/covers/gridwise-llm.jpg",
   },
   {
     event: "Datathon",
@@ -142,7 +131,6 @@ export const ARENAS: Arena[] = [
     year: "—",
     stack: [],
     note: "Financial risk prediction modelled under datathon time rules. Dataset, model and result are still to be written up.",
-    cover: "/covers/financial-risk.jpg",
   },
   {
     event: "AIUB Programming Contest",
@@ -151,7 +139,6 @@ export const ARENAS: Arena[] = [
     year: "Mar 2024",
     stack: ["C++"],
     note: "Contest rounds in C++ — the same habit behind the 300+ problems solved on Codeforces and LeetCode.",
-    cover: "/covers/programming-contest.jpg",
   },
 ];
 
@@ -163,7 +150,6 @@ export const RESEARCH_BUILDS = [
     label: "the code behind paper 01",
     stack: ["Wav2Vec2", "PyTorch", "SHAP"],
     note: "Voice-cloning attacks scored with EER and AUC on ASVspoof and In-the-Wild, plus SHAP attribution showing which parts of the signal drove each decision instead of trusting a black box.",
-    cover: "/covers/expvishing.jpg",
   },
   {
     title: "Vishing-Detection",
@@ -171,12 +157,8 @@ export const RESEARCH_BUILDS = [
     label: "tested build",
     stack: ["librosa", "torchaudio", "scikit-learn"],
     note: "The final tested notebook: feature extraction, training and evaluation kept in one reproducible run.",
-    cover: "/covers/vishing-notebook.jpg",
   },
 ];
-
-/** Paper counts stated once, so the totals card and the stat strip agree. */
-export const PAPER_TOTALS = { submitted: 6, accepted: 2, underReview: 4 };
 
 export type Edu = {
   /** Short badge shown on the tile: BSc / HSC / SSC. */
@@ -241,7 +223,7 @@ export const RESEARCH: Paper[] = [
   {
     title: "Explainable and Generalizable Deepfake Detection for Vishing Attack Recognition",
     venue: "I-COSTE 2026",
-    status: "",
+    status: "Accepted · not yet published",
     year: "2026",
     note: "Voice-cloning attacks scored on ASVspoof and In-the-Wild with EER and AUC, plus SHAP explanations of what the model actually listened to. I-COSTE 2026: Sustainable Technology for Humanity and Global Impact.",
   },
@@ -261,7 +243,47 @@ export const RESEARCH: Paper[] = [
     year: "2025",
     note: "Paper at the 7th International Conference on Integrated Sciences on how leadership style shapes change inside Bangladeshi higher education.",
   },
+  {
+    title:
+      "A Comparative Study of Ensemble Machine Learning Models for Darknet Traffic Detection",
+    venue: "ICCIT 2026",
+    status: "under review",
+    year: "2026",
+    note: "Ensemble classifiers measured against each other for spotting darknet traffic rather than trusting a single model's score.",
+  },
+  {
+    title: "PCOSNet: A Lightweight and Explainable Framework for Robust PCOS Detection",
+    venue: "ICCIT 2026",
+    status: "under review",
+    year: "2026",
+    note: "A small framework for PCOS detection, held to two demands at once: stay lightweight and stay explainable.",
+  },
+  {
+    title:
+      "Ova-VSSM: VMamba-Inspired Lightweight Architecture for Multi-Class Ovarian Ultrasound Image Classification",
+    venue: "ICCIT 2026",
+    status: "under review",
+    year: "2026",
+    note: "A VMamba-inspired architecture doing multi-class classification on ovarian ultrasound images at a fraction of the usual weight.",
+  },
+  {
+    title:
+      "Explainable Fake News Detection with Traditional Machine Learning: Evaluating Text Representations and Dataset Artifacts",
+    venue: "ICRPSET 2026",
+    status: "under review",
+    year: "2026",
+    note: "Fake news detection without a large model: which text representation actually earns the accuracy, and how much of it is a dataset artifact.",
+  },
 ];
+
+/** Paper counts read off the list itself, so no tally is ever typed twice. */
+const UNDER_REVIEW = RESEARCH.filter((paper) => paper.status === "under review").length;
+
+export const PAPER_TOTALS = {
+  submitted: RESEARCH.length,
+  accepted: RESEARCH.length - UNDER_REVIEW,
+  underReview: UNDER_REVIEW,
+};
 
 export type Honor = {
   title: string;

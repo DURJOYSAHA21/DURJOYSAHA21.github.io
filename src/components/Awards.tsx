@@ -34,7 +34,7 @@ export default function Awards() {
               {MARKERS[i]}
             </span>
             <div className="min-w-0 flex-1">
-              <h3 className="display text-[1.05rem] font-semibold leading-tight text-fg sm:text-[1.2rem]">
+              <h3 className="text-[1.02rem] font-bold leading-tight text-fg sm:text-[1.16rem]">
                 {item.title}
               </h3>
               <p className="mono mt-2 text-[0.72rem] leading-snug text-muted">{item.issuer}</p>
@@ -42,7 +42,7 @@ export default function Awards() {
                 {item.kind === "certification" ? "certification" : "honor"}
               </p>
             </div>
-            <p className="display shrink-0 text-right text-[1.1rem] font-semibold tabular-nums text-[var(--accent)]">
+            <p className="mono shrink-0 text-right text-[1rem] font-bold tabular-nums text-[var(--accent)]">
               {item.year}
             </p>
           </Tile>
@@ -64,7 +64,7 @@ export default function Awards() {
             {CO_CURRICULAR.map((row) => (
               <div
                 key={row.title}
-                className="rounded-2xl border border-line bg-white/[0.06] p-4 transition-colors hover:border-brass/50"
+                className="rounded-[3px] border border-line bg-[rgba(3,11,20,0.6)] p-4 transition-colors hover:border-brass/50"
               >
                 <p className="text-[0.9rem] font-semibold leading-snug text-fg/90">{row.title}</p>
                 <p className="mt-1.5 text-[0.8rem] leading-relaxed text-muted">{row.note}</p>

@@ -37,7 +37,7 @@ export default function Hero() {
                 <span
                   data-text="Durjoy"
                   style={{ animationDelay: "120ms" }}
-                  className="glitch enter display shimmer block text-[clamp(3.2rem,11.5vw,7.4rem)] font-semibold tracking-[-0.02em]"
+                  className="glitch enter mono block text-[clamp(2.6rem,9vw,5.6rem)] font-extrabold leading-[1.02] tracking-[-0.03em]"
                 >
                   Durjoy
                 </span>
@@ -69,12 +69,28 @@ export default function Hero() {
             opens a terminal.
           </p>
 
-          <p
+          <div
             style={{ animationDelay: "500ms" }}
-            className="cursor enter mono mt-7 h-6 text-sm text-gold/80"
+            className="enter mono mt-8 max-w-xl rounded-[3px] border border-[color-mix(in_srgb,var(--gold)_28%,rgba(245,201,106,0.14))] bg-[rgba(3,11,20,0.74)] px-4 py-3 text-[0.72rem] leading-[1.7] shadow-[5px_5px_0_rgba(3,11,20,0.55)]"
           >
-            &gt; running: portfolio --stack bento
-          </p>
+            <p className="text-gold">
+              <span className="text-fg/70">durjoy@aiub</span>
+              {":~$ "}
+              <span className="text-fg">whoami</span>
+            </p>
+            <p className="text-muted">{PROFILE.role}</p>
+            <p className="text-gold">
+              <span className="text-fg/70">durjoy@aiub</span>
+              {":~$ "}
+              <span className="text-fg">ls ~/work</span>
+            </p>
+            <p className="text-muted">course-builds  personal  arenas  research-code</p>
+            <p className="text-gold">
+              <span className="text-fg/70">durjoy@aiub</span>
+              {":~$ "}
+              <span className="cursor" />
+            </p>
+          </div>
 
           <div
             style={{ animationDelay: "580ms" }}
@@ -82,14 +98,14 @@ export default function Hero() {
           >
             <a
               href="#projects"
-              className="sheen relative rounded-full bg-gradient-to-r from-gold via-brass to-gold px-7 py-3 font-semibold text-[#17293f] shadow-[0_20px_46px_-20px_color-mix(in_srgb,var(--gold)_70%,transparent)] transition-transform hover:-translate-y-0.5"
+              className="sheen relative rounded-[3px] bg-gradient-to-r from-gold via-brass to-gold px-7 py-3 font-semibold text-[#17293f] shadow-[5px_5px_0_rgba(3,11,20,0.62)] transition-transform hover:-translate-x-[2px] hover:-translate-y-[3px]"
             >
               view the work
             </a>
             <a
               href={asset(PROFILE.cv)}
               download
-              className="mono rounded-full border border-line px-6 py-3 text-[0.72rem] uppercase tracking-[0.16em] text-fg/85 transition-colors hover:border-gold/60 hover:text-gold"
+              className="mono rounded-[3px] border border-line bg-[rgba(3,11,20,0.6)] px-6 py-3 text-[0.72rem] uppercase tracking-[0.16em] text-fg/85 transition-colors hover:border-gold/60 hover:text-gold"
             >
               cv ↓
             </a>
@@ -97,7 +113,7 @@ export default function Hero() {
               href={CONTACT.github}
               target="_blank"
               rel="noreferrer noopener"
-              className="mono rounded-full px-4 py-3 text-[0.72rem] uppercase tracking-[0.16em] text-muted transition-colors hover:text-gold"
+              className="mono rounded-[3px] px-4 py-3 text-[0.72rem] uppercase tracking-[0.16em] text-muted transition-colors hover:text-gold"
             >
               github ↗
             </a>
@@ -108,10 +124,10 @@ export default function Hero() {
         <div style={layer(-0.08)} className="relative z-10 mx-auto w-full max-w-sm lg:max-w-[30rem]">
           <span
             aria-hidden="true"
-            className="absolute -inset-6 rounded-[34px] bg-[radial-gradient(circle_at_50%_20%,color-mix(in_srgb,var(--gold)_20%,transparent),transparent_68%)] blur-2xl"
+            className="absolute -inset-6 rounded-[6px] bg-[radial-gradient(circle_at_50%_20%,color-mix(in_srgb,var(--gold)_20%,transparent),transparent_68%)] blur-2xl"
           />
           <Tilt strength={5} className="enter">
-            <div className="relative overflow-hidden rounded-[26px] border border-[color-mix(in_srgb,var(--gold)_34%,transparent)] shadow-[0_44px_84px_-32px_rgba(2,9,17,0.95),0_0_72px_-16px_color-mix(in_srgb,var(--gold)_45%,transparent)]">
+            <div className="relative overflow-hidden rounded-[3px] border border-[color-mix(in_srgb,var(--gold)_46%,transparent)] shadow-[12px_12px_0_rgba(3,11,20,0.6),0_40px_70px_-40px_rgba(2,9,17,0.95)]">
               <Image
                 src={PROFILE.photo}
                 alt="Durjoy Saha in a navy blazer"
