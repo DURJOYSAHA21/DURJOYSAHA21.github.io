@@ -49,7 +49,7 @@ export default function Research() {
 
         {RESEARCH.map((paper, i) => (
           <PaperTile
-            key={paper.venue}
+            key={paper.title}
             paper={paper}
             index={i}
             accent={ACCENTS[i % ACCENTS.length]}
