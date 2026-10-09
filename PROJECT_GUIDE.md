@@ -205,8 +205,8 @@ vs "GPA"). `points` is the bullet list.
 Optional `link` renders a `verify ↗` chip. **Open the link in a browser first and read what it
 says.** KnowledgeGate verification pages can render "Certificate Revoked — this certificate is no
 longer valid" while still returning HTTP 200, so a curl check is not enough. The Complete CSS
-course was finished but its certificate was revoked, so it is deliberately absent from `HONORS`;
-the HTML and JavaScript ones are listed because their pages say "Certificate Verified".
+certificate is in that state and is listed anyway at his instruction; the HTML and JavaScript ones
+both read "Certificate Verified".
 
 ### Add a hackathon / datathon entry
 
@@ -256,7 +256,7 @@ guess — this page goes to recruiters.
 | `ARENAS` → Financial Risk Prediction | Dataset, model, result. `stack: []` still empty. |
 | `HONORS` → Dean's Award | Year. |
 | `HONORS` → IT Essentials (Cisco) | Year. |
-| `HONORS` → KnowledgeGate Complete CSS | **Omitted on purpose, not blank.** The course was finished at 93% but `knowledgegate.ai/certificate/60E75900` renders "Certificate Revoked — this certificate is no longer valid". Re-check that page before ever adding it back. |
+| `HONORS` → KnowledgeGate Complete CSS | Listed at his instruction, but `knowledgegate.ai/certificate/60E75900` renders "Certificate Revoked — this certificate is no longer valid". The `verify ↗` chip therefore leads a visitor to a page that contradicts the tile. Re-check that page and consider dropping the link if it still reads revoked. |
 | `BUILDS` → Luffy | `period: ""` (no date given). Also no repo, and the `Graphics` repository does not clearly contain it. |
 | `CONTACT` | No LinkedIn, no X handle. |
 | `public/durjoy.jpg` | JPG, so the background cannot be removed. A transparent PNG would fix the hero. |

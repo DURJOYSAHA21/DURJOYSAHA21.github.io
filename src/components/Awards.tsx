@@ -4,10 +4,13 @@ import Tile from "./Tile";
 
 const ACCENTS: Accent[] = ["gold", "teal", "clay", "brass"];
 
-/** Five tiles fill two 6-column rows, so the cycle keeps working at any list length. */
+/** Eight tiles fill three 6-column rows exactly; the cycle keeps any later count defined. */
 const SPANS = [
   "sm:col-span-2 lg:col-span-3",
   "sm:col-span-2 lg:col-span-3",
+  "lg:col-span-2",
+  "lg:col-span-2",
+  "lg:col-span-2",
   "lg:col-span-2",
   "lg:col-span-2",
   "lg:col-span-2",

@@ -322,6 +322,13 @@ export const HONORS: Honor[] = [
     link: "https://www.knowledgegate.ai/certificate/B0E59648",
   },
   {
+    title: "Complete CSS",
+    issuer: "KnowledgeGate",
+    year: "14 Oct 2025",
+    kind: "certification",
+    link: "https://www.knowledgegate.ai/certificate/60E75900",
+  },
+  {
     title: "Complete JavaScript",
     issuer: "KnowledgeGate",
     year: "27 Oct 2025",
